@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color:  #e8f5e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .todo-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+  }
+  
+  h1, h2 {
+    text-align: center;
+  }
+  
+  form, .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #todo-input, #due-date, #category-select, #search-bar, #filter-select {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+  }
+  
+  #progress-container {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  #progress-bar {
+    background: #e9ecef;
+    height: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    width: 100%;
+    position: relative;
+  }
+  
+  #progress-fill {
+    background: #28a745;
+    height: 10px;
+    border-radius: 5px;
+    width: 0%;
+  }
+  
+  #pending-tasks, #completed-tasks {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #pending-tasks li, #completed-tasks li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  button.delete {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .subtasks {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+  
