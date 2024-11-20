@@ -1,114 +1,122 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("todo-form");
-    const input = document.getElementById("todo-input");
-    const dueDateInput = document.getElementById("due-date");
-    const categorySelect = document.getElementById("category-select");
-    const searchBar = document.getElementById("search-bar");
-    const filterSelect = document.getElementById("filter-select");
-    const pendingTasks = document.getElementById("pending-tasks");
-    const completedTasks = document.getElementById("completed-tasks");
-    const exportButton = document.getElementById("export-tasks");
-    const importInput = document.getElementById("import-tasks");
-    const progressText = document.getElementById("progress-text");
-    const progressFill = document.getElementById("progress-fill");
-  
-    // Task storage
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  
-    // Save to local storage
-    const saveTasks = () => {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-      updateProgress();
-    };
-  
-    // Add a task
-    const addTask = (task) => {
-      tasks.push(task);
+const taskForm = document.getElementById("task-form");
+const taskInput = document.getElementById("task-input");
+const categorySelect = document.getElementById("category-select");
+const dueDateInput = document.getElementById("due-date");
+const pendingTasks = document.getElementById("pending-tasks");
+const completedTasks = document.getElementById("completed-tasks");
+const progressBar = document.getElementById("progress-bar");
+const badges = document.getElementById("badges");
+const toggleTheme = document.getElementById("toggle-theme");
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let completedCount = 0;
+let isDarkMode = false; // Tracks current theme state
+
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function renderTasks() {
+  pendingTasks.innerHTML = "";
+  completedTasks.innerHTML = "";
+  completedCount = 0;
+
+  tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${task.text} (${task.category})</span>
+      <div>
+        <input type="checkbox" ${task.completed ? "checked" : ""} data-index="${index}">
+        <button data-index="${index}">Delete</button>
+      </div>
+    `;
+
+    li.querySelector("input").addEventListener("change", (e) => {
+      task.completed = e.target.checked;
       renderTasks();
       saveTasks();
-    };
-  
-    // Render tasks
-    const renderTasks = () => {
-      pendingTasks.innerHTML = "";
-      completedTasks.innerHTML = "";
-  
-      tasks.forEach((task, index) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          <span>${task.text} (${task.category}) - ${task.dueDate}</span>
-          <div>
-            <input type="checkbox" ${task.completed ? "checked" : ""}>
-            <button class="delete">X</button>
-          </div>
-        `;
-  
-        // Checkbox logic
-        li.querySelector("input[type='checkbox']").addEventListener("change", () => {
-          task.completed = !task.completed;
-          saveTasks();
-        });
-  
-        // Delete logic
-        li.querySelector(".delete").addEventListener("click", () => {
-          tasks.splice(index, 1);
-          saveTasks();
-        });
-  
-        if (task.completed) {
-          completedTasks.appendChild(li);
-        } else {
-          pendingTasks.appendChild(li);
-        }
-      });
-    };
-  
-    // Event listeners
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const taskText = input.value.trim();
-      const dueDate = dueDateInput.value;
-      const category = categorySelect.value;
-  
-      if (taskText) {
-        addTask({ text: taskText, dueDate, category, completed: false });
-        input.value = "";
-        dueDateInput.value = "";
-      }
     });
-  
-    // Export tasks
-    exportButton.addEventListener("click", () => {
-      const blob = new Blob([JSON.stringify(tasks)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "tasks.json";
-      a.click();
+
+    li.querySelector("button").addEventListener("click", () => {
+      tasks.splice(index, 1);
+      renderTasks();
+      saveTasks();
     });
-  
-    // Import tasks
-    importInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        const importedTasks = JSON.parse(reader.result);
-        tasks.push(...importedTasks);
-        saveTasks();
-      };
-      reader.readAsText(file);
-    });
-  
-    // Update progress
-    const updateProgress = () => {
-      const totalTasks = tasks.length;
-      const completedTasks = tasks.filter((task) => task.completed).length;
-      const progress = totalTasks ? Math.round((completedTasks / totalTasks) * 100) : 0;
-  
-      progressText.textContent = `${progress}%`;
-      progressFill.style.width = `${progress}%`;
-    };
-  
-    renderTasks();
+
+    if (task.completed) {
+      completedTasks.appendChild(li);
+      completedCount++;
+    } else {
+      pendingTasks.appendChild(li);
+    }
   });
-  
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const totalTasks = tasks.length;
+  const progress = totalTasks ? (completedCount / totalTasks) * 100 : 0;
+  progressBar.style.width = `${progress}%`;
+
+  if (progress === 100 && !document.querySelector(".badge")) {
+    const badge = document.createElement("li");
+    badge.className = "badge";
+    badge.innerText = "🎉 All Tasks Completed!";
+    badges.appendChild(badge);
+  }
+}
+
+// Theme toggle functionality
+function toggleThemeHandler() {
+  const body = document.body;
+  const isDark = body.classList.toggle("dark-mode"); // Toggle dark mode class
+
+  // Update button text
+  toggleTheme.innerText = isDark ? "Switch to Light Theme" : "Switch to Dark Theme";
+
+  // Apply theme-specific styles
+  const textColor = isDark ? "#ffffff" : "#333333";
+  const backgroundColor = isDark ? "#333333" : "#f0f4f8";
+
+  body.style.backgroundColor = backgroundColor;
+  body.style.color = textColor;
+
+  const taskItems = document.querySelectorAll("li");
+  taskItems.forEach((item) => {
+    item.style.color = textColor;
+  });
+
+  // Save theme state
+  isDarkMode = isDark;
+  localStorage.setItem("isDarkMode", isDarkMode);
+}
+
+function restoreTheme() {
+  const savedTheme = JSON.parse(localStorage.getItem("isDarkMode"));
+  if (savedTheme) {
+    isDarkMode = savedTheme;
+    toggleThemeHandler(); // Apply dark mode on load if previously enabled
+  }
+}
+
+taskForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const task = {
+    text: taskInput.value,
+    category: categorySelect.value,
+    dueDate: dueDateInput.value,
+    completed: false,
+  };
+
+  tasks.push(task);
+  renderTasks();
+  saveTasks();
+  taskForm.reset();
+});
+
+toggleTheme.addEventListener("click", toggleThemeHandler);
+
+// Initialize app
+restoreTheme();
+renderTasks();

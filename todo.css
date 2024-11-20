@@ -1,96 +1,151 @@
+/* Base styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color:  #e8f5e9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .todo-container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 400px;
-  }
-  
-  h1, h2 {
-    text-align: center;
-  }
-  
-  form, .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  #todo-input, #due-date, #category-select, #search-bar, #filter-select {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
-  }
-  
-  #progress-container {
-    margin: 20px 0;
-    text-align: center;
-  }
-  
-  #progress-bar {
-    background: #e9ecef;
-    height: 10px;
-    border-radius: 5px;
-    margin-top: 5px;
-    width: 100%;
-    position: relative;
-  }
-  
-  #progress-fill {
-    background: #28a745;
-    height: 10px;
-    border-radius: 5px;
-    width: 0%;
-  }
-  
-  #pending-tasks, #completed-tasks {
-    list-style: none;
-    padding: 0;
-  }
-  
-  #pending-tasks li, #completed-tasks li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f8f9fa;
-    margin-bottom: 8px;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  button.delete {
-    background: #dc3545;
-    color: white;
-  }
-  
-  .subtasks {
-    margin-top: 10px;
-    padding-left: 20px;
-  }
-  
-  input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark-mode .container {
+  background: #444;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Typography */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+body.dark-mode button {
+  background-color: #fff;
+  color: #333;
+}
+
+body.dark-mode button:hover {
+  background-color: #ddd;
+}
+
+/* Form elements */
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+form input, form select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+}
+
+body.dark-mode form input,
+body.dark-mode form select {
+  background-color: #555;
+  color: #fff;
+  border-color: #666;
+}
+
+/* Progress bar */
+.progress-container {
+  margin-bottom: 20px;
+}
+
+.progress {
+  width: 100%;
+  height: 15px;
+  background: #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width 0.3s;
+}
+
+/* Dark mode progress bar */
+body.dark-mode .progress {
+  background: #555;
+}
+
+body.dark-mode .progress-bar {
+  background: #76c7c0;
+}
+
+/* Task lists */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px 0;
+  background: #f9f9f9;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode li {
+  background: #555;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Badges */
+.badges ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.badges li {
+  padding: 5px 10px;
+  background: #ffeb3b;
+  border-radius: 5px;
+}
+
+body.dark-mode .badges li {
+  background: #ffc107;
+  color: #333;
+}

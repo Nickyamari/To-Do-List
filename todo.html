@@ -3,52 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To-Do App</title>
+  <title>To-Do List</title>
   <link rel="stylesheet" href="todo.css">
 </head>
 <body>
-  <div class="todo-container">
+  <div class="container">
     <h1>To-Do List</h1>
-    <form id="todo-form">
-      <input type="text" id="todo-input" placeholder="Enter a task" required>
-      <input type="date" id="due-date">
-      <select id="category-select">
-        <option value="Personal">Personal</option>
-        <option value="Work">Work</option>
-        <option value="Other">Other</option>
-      </select>
-      <button type="submit">Add Task</button>
-    </form>
+    <button id="toggle-theme">Switch Theme</button>
 
-    <div class="controls">
-      <input type="text" id="search-bar" placeholder="Search tasks">
-      <select id="filter-select">
-        <option value="all">All</option>
-        <option value="Personal">Personal</option>
-        <option value="Work">Work</option>
-        <option value="Other">Other</option>
-        <option value="completed">Completed</option>
-        <option value="pending">Pending</option>
-      </select>
-      <button id="export-tasks">Export</button>
-      <input type="file" id="import-tasks" accept=".json">
-    </div>
-
-    <div id="progress-container">
-      <span>Progress: <span id="progress-text">0%</span></span>
-      <div id="progress-bar">
-        <div id="progress-fill"></div>
+    <div class="progress-container">
+      <h3>Task Completion Progress</h3>
+      <div class="progress">
+        <div class="progress-bar" id="progress-bar"></div>
       </div>
     </div>
 
-    <h2>Pending Tasks</h2>
-    <ul id="pending-tasks" class="sortable"></ul>
+    <form id="task-form" aria-label="Add a new task">
+      <input type="text" id="task-input" placeholder="Enter your task" required>
+      <select id="category-select">
+        <option value="Personal">Personal</option>
+        <option value="Work">Work</option>
+      </select>
+      <input type="date" id="due-date">
+      <button type="submit">Add Task</button>
+    </form>
 
-    <h2>Completed Tasks</h2>
-    <ul id="completed-tasks"></ul>
+    <div class="task-lists">
+      <div>
+        <h2>Pending Tasks</h2>
+        <ul id="pending-tasks"></ul>
+      </div>
+      <div>
+        <h2>Completed Tasks</h2>
+        <ul id="completed-tasks"></ul>
+      </div>
+    </div>
+
+    <div class="badges">
+      <h3>Your Achievements</h3>
+      <ul id="badges"></ul>
+    </div>
   </div>
-
   <script src="todo.js"></script>
 </body>
 </html>
-
